@@ -8,16 +8,18 @@ vchannel is a GUI application that does the following:-
 	- displays the stream image in a window
 	- converts the stream images into JPEG so they can be retrieved using REST/HTTP
 
-To build the application you will need Qt 4.8.  
+To build and run the application you will need Qt 4.8. environment.  
 
 This application is only supported on Linux, but it may also work quite easily on Mac and Windows.
 
 Building the application
 ------------------------
 
-Download the source code using 
+Download the source code using: 
+    > git clone https://github.com/opennetcam/vchannel.git
 
 Change into the vchannel directory
+    > cd vchannel
 	> qmake vchannel.pro
 	> make clean all
 
