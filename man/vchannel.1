@@ -1,0 +1,192 @@
+.\" Manpage for OpenNetCam VCHANNEL.
+.TH man 1 "1 Mar 2015" "1.0" "vchannel man page"
+.SH NAME
+VCHANNEL \- OpenNetCam video channel application
+.SH SYNOPSIS
+vchannel provides streaming from a network IP camera.  
+.SH DESCRIPTION
+vchannel provides streaming using rtsp/rtp.  
+
+It will;
+    stream from MJPEG and H264 sources
+    display video in a window on screen, 
+    record to disk in AVI (MJPEG) or MP4 (H264) formats,
+    detect motion,
+    notify a supervisor application of events 
+
+vchannel uses the Qt4 (ver 4.8) framework.
+ 
+.SH CONFIG
+
+vchannel will save its configuration to:
+<home>/.config/opennetcam/vchannel_<name>.conf
+
+where <name> is a unique name passed on the command line
+
+.SH OPTIONS
+
+syntax: vchannel <options>
+        --noborder,-b         : omit window border, fix window position and size
+        --position,-p <x>-<y>-<w>-<h>         : window position
+        --device,-d   <num>                   : unique number of this device (reqd.)
+        --name,-n     <name>                  : unique camera name (reqd.)
+        --cname,-c    <name>                  : common name
+        --url,-u      <url>                   : url to stream using rtsp & rtp/udp (default)
+        --tcp,-t      <url>                   : url to stream using rtsp & rtp/tcp
+        --audio,-a    <mode>                  : audio mode (MJPEG only)
+        --output,-o   <dir>                   : output directory
+        --hardware,-w <hw>                    : hardware designation
+        --record,-r   <i>-<m>-<d>-<h:m>-<h:m> : record schedule
+        --events,-e   <ipaddr>                : send event messages to server
+        --motion,-m   <s>-<t>-<x>-<y>-<w>-<h> : motion detection/window settings
+        --basic,-s    <auth>                  : basic security authorization
+        --version,-v                          : version display
+        --help,-h                             : this summary
+
+omit window border
+
+    Do not decorate the window with a border and
+    do not allow the window to be moved or resized
+
+window position
+    fields delimitered by '-'
+    <x>-<y>-<w>-<h>
+    <x>    window left   - 0 ==> previously saved position or default
+    <y>    window top    - 0 ==> previously saved position or default
+    <w>    window width  - 0 ==> previously saved position or default
+    <w>    window height - 0 ==> previously saved position or default
+    
+    e.g.
+    0-0-640-400
+
+common name
+
+    User-friendly display name of the channel
+
+camera name
+
+    Unique identifier of the channel, such as a UUID
+
+url to stream using rtsp & rtp/udp (default)
+
+    Path URL to the streaming data.
+    This will vary from camera type to camera type.  Consult the camera
+    documentation for details.
+    Use the camera's web interface to set up the streaming profiles.  
+    
+    For example:
+    Acti: (stream1 ==> profile 1)
+        rtsp://192.168.1.128:7070/stream1
+        
+    Amegia: (v05 ==> profile 5)
+        rtsp://192.168.1.201/v05 
+        
+    Vivotek: (live.sdp ==> profile 2)
+        rtsp://192.168.1.23/live2.sdp 
+
+
+url to stream using rtsp & rtp/tcp
+
+    Same as above, except that TCP protocol will be used.
+    This may be needed in some networks where UDP fails.
+    Note that not all cameras support TCP.
+
+audio mode
+    
+    Record audio as well as video (MJPEG only)
+    0 : no audio 
+    1 : record audio 
+    
+    Note: audio will not play live, but will be recorded
+
+output directory
+
+    Base directory for storing recorded video files
+    By default this is '/tmp'
+    Files are stored as:
+    <dir>/<date>/AV.<name>.<timestamp>.<secs>.<evt>.avi (MJPEG)
+    or 
+    <dir>/<date>/AV.<name>.<timestamp>.<secs>.<evt>.mp4 (H264)
+
+    where:
+        <dir> is the base directory
+        <date> is the current date in yyyy-mm-dd format
+        <name> is the unique camera name
+        <timestamp> is the UTC time_t value in seconds
+        <secs> is the length of the video clip in seconds
+        <evt> is the event indicator; N=none, M=motion
+        
+unique number of this device
+
+    Each instance of vchannel must be set with a unique integer, as this 
+    determines the TCP/IP port number to use when accessing the device.
+    device 1 gets port 5556, device 2 gets 5557 and so on
+
+hardware designation
+
+    Hardware descriptor type (ASCII) or 
+    alternatively the MAC address
+
+record schedule
+
+    fields delimitered by '-'
+    <id>-<mode>-<days of week>-<start time>-<end time>
+    <id>   : integer identifier of this schedule
+    <mode> : integer -  OFF=0, 
+                        CONTINUOUS=1, 
+                        SCHEDULE=2, 
+                        MOTION=3, 
+                        SCHEDULE & MOTION=4
+    <start time> : HH:MM using 24 hour clock
+    <end time>   : HH:MM using 24 hour clock
+    e.g. 
+    0-3-127-00:00-23:59
+
+send event messages
+
+    IP address of server to which event messages are sent.  If this 
+    option is absent, no event messages will be sent.
+    
+    Also, vchannel will accept commands from this IP address as well as
+    the localhost (127.0.0.1).  If this option is absent, only commands 
+    from localhost will be accepted. 
+
+basic security authorization
+
+    Basic Authorization string for RTSP protocol. This must contain the 
+    username and password, base64 encoded.
+    Some cameras may require at least Basic authorization.
+
+motion detection window
+
+    If this field is set, vchannel will do motion detection.  Note that you can 
+    set the camera to do motion detection too, but you probably do not need both.
+    
+    fields delimitered by '-'
+    <sensitivity>-<threshold>-<x0>-<y0>-<x1>-<x2>
+    <sensitivity> brightness difference needed to trigger an event 
+                  (100 is most sensitive, 0 least) 
+    <threshold>   % of pixels in event window needed to trigger an event 
+                  (0 is smallest (most easily triggered), 100 is full window) 
+    <x0>    event window left in % of image width
+    <y0>    event window top in % of image height
+    <x1>    event window right in % of image width
+    <y1>    event window bottom in % of image height
+    
+    e.g.
+    50-50-0-0-100-100
+    
+
+.SH SEE ALSO
+
+.SH BUGS
+No reported bugs.
+
+.SH COPYRIGHT
+       Copyright © 2015 Mydatappliance Technologies  
+       Licensed under GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+       This is free software: you are free to change and redistribute it.  There is NO WARRANTY, to the extent permitted by law.
+
+.SH AUTHOR
+S Meyer (support (at) mydatappliance (dot) com)
+    

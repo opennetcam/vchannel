@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>cam.jpg</file>
+        <file>stop.png</file>
+        <file>audon.png</file>
+        <file>audoff.png</file>
+        <file>close.png</file>
+        <file>minimize.png</file>
+        <file>normal.png</file>
+        <file>play.png</file>
+    </qresource>
+</RCC>

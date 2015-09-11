@@ -1,0 +1,57 @@
+### Commented entries have reasonable defaults.
+### Uncomment to edit them.
+# Source: <source package name; defaults to package name>
+Section: misc
+Priority: optional
+Homepage: http://www.opennetcam.net
+Standards-Version: 3.9.2
+
+Package: opennetcam
+Version: 1.0
+# Pre-Depends: <comma-separated list of packages>
+Depends: libqt4-network, qt4-qtconfig
+# Recommends: <comma-separated list of packages>
+Recommends: totem, libjpeg8
+# Suggests: <comma-separated list of packages>
+Suggests: avconv, ffmpeg, libjpeg62-turbo, libjpeg-turbo8
+# Provides: <comma-separated list of packages>
+# Replaces: <comma-separated list of packages>
+#Architecture: amd64
+# Copyright: <copyright file; defaults to GPL2>
+# Changelog: <changelog file; defaults to a generic changelog>
+## Readme: <README.Debian file; defaults to a generic one>
+Extra-Files: README
+# Files: <pair of space-separated paths; First is file to include, second is destination>
+#  <more pairs, if there's more than one file to include. Notice the starting space>
+Files: vchannel /usr/local/bin    
+ vchannel.1.gz /usr/share/man/man1    
+File: postinst
+ #!/bin/sh -e
+ .
+ set -e
+ .
+ PKG=opennetcam
+ .
+ if [ "$1" = configure ] ; then
+    echo $1
+ fi 
+ #DEBHELPER#
+ exit 0
+File: prerm
+ #!/bin/sh -e
+ # prerm for opennetcam
+ .
+ set -e
+ .
+ PKG=opennetcam
+ .
+ if [ "$1" = remove -o "$1" = purge ] ; then
+    echo $1
+ fi
+ #DEBHELPER#
+ exit 0    
+Description: Video Surveillance Channel Application
+ Supports MJPEG realtime viewing and recording
+ Supports H264 realtime viewing and recording
+ Supports motion detection
+
