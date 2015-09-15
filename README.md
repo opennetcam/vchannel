@@ -27,26 +27,30 @@ For H264:
 Building the application
 ------------------------
 
-For Debian: Install the following packages 
-gcc g++ make autoconf libjpeg62-turbo-dev (or libjpeg8-dev) libavformat-dev libavutil-dev libswscale-dev libavcodec-dev equivs
+For Debian: Install the following packages
+    qt4-dev-tools
+    gcc g++ make autoconf 
+    libjpeg62-turbo-dev (or libjpeg8-devlibavformat-dev libavutil-dev libswscale-dev libavcodec-dev equivs
+
 
 Download the source code using: 
     > git clone https://github.com/opennetcam/vchannel.git
 
 Change into the vchannel directory
 
-    > cd vchannel
+    > cd vchannel-master
 
-	> qmake vchannel.pro
+	> make qmake
+	
 or, to get a debug build:
-	> qmake vchannel-d.pro
+	> src/qmake vchannel-d.pro
 
 	> make clean all
 
 If you are running on a Debian platform, you can install 
 from the opennetcam_1.0.deb package:
 
-    > sudo dpkg -i debian/opennetcam-1.0_all.deb
+    > sudo dpkg -i debian/opennetcam_1.0_all.deb
 
 and then to load dependencies:
     > apt-get install -f

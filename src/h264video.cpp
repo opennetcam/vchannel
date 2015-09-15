@@ -44,8 +44,9 @@ extern "C"
 {
 //	TODO recommended by ffmpeg, but not avconv
 // #include <libavutil/frame.h>
-
+#ifdef FRAME_H
 	#include <libavutil/frame.h>
+#endif
 	#include <libavformat/avio.h>
     #include <libavcodec/avcodec.h>
     #include <libavformat/avformat.h>
@@ -53,10 +54,10 @@ extern "C"
 };
 
 // for older versions of avconv
-//#ifndef av_frame_alloc
-//#define av_frame_alloc avcodec_alloc_frame
-//#define av_frame_free  avcodec_free_frame
-//#endif
+#ifndef av_frame_alloc
+#define av_frame_alloc avcodec_alloc_frame
+#define av_frame_free  avcodec_free_frame
+#endif
 
 using namespace command_line_arguments;
 
