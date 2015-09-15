@@ -30,7 +30,7 @@
 #include <QLabel>
 
 #define DEFAULT_WIDTH 360
-#define DEFAULT_HEIGHT 240
+#define DEFAULT_HEIGHT 300
 
 namespace command_line_arguments {
 

@@ -133,9 +133,13 @@ VChannel::VChannel(QWidget *parent) :
             {
             	sz = settings.value("size", QSize(DEFAULT_WIDTH,DEFAULT_HEIGHT)).toSize();
             	// set restore first to get resize to work correctly
-            	restoreHeight = settings.value("restore",sz.height()).toInt();
+            	if( nborder ) {
+            	    restoreHeight = 0;
+            	} else {            	
+            	    restoreHeight = settings.value("restore",sz.height()).toInt();
+            	}
             }
-
+            
             if( restoreHeight )
             {
                 resize( sz.width(),0 );
